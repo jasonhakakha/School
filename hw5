@@ -1,0 +1,83 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javafxapplication2;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+/**
+ *
+ * @author karynsolky
+ */
+public class JavaFXApplication2 extends Application {
+    double radius;
+    @Override
+    public void start(Stage primaryStage) {
+        
+        
+        Pane root = new Pane();
+        Text txt = new Text();
+        Circle c1 = new Circle();
+        c1.setRadius(10);
+        c1.setCenterX(40);
+        c1.setCenterY(40);
+        Circle c2 = new Circle();
+        c2.setRadius(10);
+        c2.setCenterX(120);
+        c2.setCenterY(150);
+        
+        Line line = new Line();
+        
+        update(line, c1, c2,txt);
+        
+        c1.setOnMouseDragged(e->{
+            c1.setCenterX(e.getX());
+            c1.setCenterY(e.getY());
+             update(line, c1, c2,txt);
+
+        });
+        c2.setOnMouseDragged(e->{
+            c2.setCenterX(e.getX());
+            c2.setCenterY(e.getY());
+             update(line, c1, c2,txt);
+
+        });
+        Scene scene = new Scene(root, 250, 300);
+        root.getChildren().addAll(line,c1,c2,txt);
+        primaryStage.setTitle("Click and Drag Circles");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    
+    private void update(Line line, Circle x, Circle y, Text txt){
+        line.setStartX(x.getCenterX());
+        line.setStartY(x.getCenterY());
+        line.setEndX(y.getCenterX());
+        line.setEndY(y.getCenterY());
+        double first = Math.pow(x.getCenterX() - y.getCenterX(),2);
+        double second = Math.pow(x.getCenterY() - y.getCenterY(),2);
+        int distance = (int)Math.sqrt(first + second);
+        txt.setText(String.valueOf(distance));
+        txt.setX((x.getCenterX()+y.getCenterX())/2);
+        txt.setY((x.getCenterY()+y.getCenterY())/2);
+
+    }
+    public static void main(String[] args) {
+        launch(args);
+    }
+}

@@ -1,37 +1,29 @@
+import java.io.*;
 import java.util.*;
-public class natesExcellentPostFixEvaluationMachine {
-	public static void main (String args[]) {
-		System.out.println(evalPostFix("99^"));
+public class NatesMostExcellenetBracketBalanceConformationMachine {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println(bb("{{}"));
+		System.out.println(bb("[[]"));
+		System.out.println(bb("({}[])"));
 	}
-	static int evalPostFix(String x) throws NatesMostExcellentMissingIntegerForOperationException {
-		Stack<Integer> st = new Stack<Integer>();
-		for (int i = 0; i < x.length(); i++) {
-			char ch = x.charAt(i);
-			if (ch >= '0' && ch <= '9')
-				st.push(ch - '0');
-			else {
-				int a = st.pop();
-				if(st.isEmpty()) throw new NatesMostExcellentMissingIntegerForOperationException();
-				else {
-					int b = st.pop();
-				switch(ch) {
-				case '+': st.push(a + b); break;
-				case '-': st.push(a - b); break;
-				case '*': st.push(a * b); break;
-				case '/': st.push(a / b); break;
-				case '^': st.push((int)Math.pow(a, b)); break;
-				}
+	static boolean bb(String sst){
+		Stack<Character> st = new Stack<Character>();
+		for(char x: sst.toCharArray()){	
+			if(x  == '(' || x == '[' || x == '{')
+				st.push(x);
+			else if (st.empty()) return false;
+			else{
+				char before = (char)st.pop();
+				if((before == '(' && x != ')')||(before == '[' && x != ']')||(before == '{' && x != '}'))
+					return false;
 			}
-			}
+			
 		}
-		return st.pop();
+		if(st.isEmpty())
+			return true;
+		return false;
 	}
-}
- class NatesMostExcellentMissingIntegerForOperationException extends Exception{
-		public NatesMostExcellentMissingIntegerForOperationException() {
-			super("Insufficent integers for expression");
-		}
-		public NatesMostExcellentMissingIntegerForOperationException(String message) {
-			super(message);
-		} 
+
 }

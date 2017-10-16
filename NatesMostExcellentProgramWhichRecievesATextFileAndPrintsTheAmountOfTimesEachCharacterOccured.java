@@ -8,7 +8,7 @@ public class NatesMostExcellentProgramWhichRecievesATextFileAndPrintsTheAmountOf
 		Scanner in = new Scanner(file);
 		Map<Character, Integer> map = new HashMap<>();
 		while(in.hasNext()) {
-			String temp = in.next();
+			String temp = in.nextLine();
 			for(char c: temp.toCharArray()) {
 				if(map.containsKey(c))
 					map.put(c, map.get(c) + 1);

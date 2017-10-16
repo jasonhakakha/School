@@ -18,9 +18,9 @@ public class NatesMostExcellentProgramWhichRecievesATextFileAndPrintsTheAmountOf
 			}
 			
 		}
-		for(char x: map.keySet()) {
+		for(char x: map.keySet()) 
 			System.out.println(x + ": " + map.get(x));
-		}
+		
 	}
 
 }

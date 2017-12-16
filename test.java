@@ -31,9 +31,10 @@ public class test {
 				String temp = x.substring(0, i);
 				if(list.contains(temp) && temp.length() > 1)
 					//System.out.println(temp);
-					valid.add(temp);
+					if(!valid.contains(temp))valid.add(temp);
 			}
 		}
+		//for(String x: valid) System.out.println(x);
 		System.out.println(valid.size());
 		boolean won = false;
 		while(!won){

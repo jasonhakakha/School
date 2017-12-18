@@ -5,9 +5,15 @@
  */
 package word;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,9 +30,10 @@ import javafx.stage.Stage;
  * @author Jason
  */
 public class Word extends Application {
+    static Set<String> ps = new HashSet<>();
     int count = 0;
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException, UnsupportedEncodingException {
 //        Button btn = new Button();
 //        btn.setText("Say 'Hello World'");
 //        btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -36,8 +43,9 @@ public class Word extends Application {
 //                System.out.println("Hello World!");
 //            }
 //        });
-        String[] temparr = {"read","bee","card","an","be","to"};
-        ArrayList<String> wordstemp = new ArrayList<>(Arrays.asList(temparr));
+        //String[] temparr = {"read","bee","card","an","be","to"};
+        ArrayList<String>wordstemp = generate("CATS");
+       // ArrayList<String> wordstemp = new ArrayList<>(Arrays.asList(temparr));
         ArrayList<String> words = orderWords(wordstemp);
         
         count = words.size();
@@ -118,6 +126,43 @@ public class Word extends Application {
         }
         return temp;
     }
+    public static ArrayList<String> generate(String s) throws FileNotFoundException, UnsupportedEncodingException {
+		// TODO Auto-generated method stub
+		File file = new File("src/dictionary.txt");
+		Scanner scan = new Scanner(file);
+		Scanner in = new Scanner(System.in);
+		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> valid = new ArrayList<>();
+		while(scan.hasNextLine()) {
+                    String temp = scan.nextLine();
+                  	if(temp.length() < 7) list.add(temp);
+                    //System.out.println(temp);
+			
+		}
+		permute(s);
+		for(String x: ps) {
+			//System.out.println(x);
+			for(int i = 1; i <= x.length(); i++) {
+				String temp = x.substring(0, i);
+				if(list.contains(temp) && temp.length() > 1)
+					//for some reason, the set does not filter out all duplicates. Idk
+					if(!valid.contains(temp))valid.add(temp);
+			}
+		}
+		return valid;
+	}
+	static void permute(String s) {
+		permute(s, "");
+	}
+	static void permute(String s, String built) {
+		if (s.length() == 0) {
+			ps.add(built);
+		}
+		for (int i = 0; i < s.length(); i++) {
+			permute(s.substring(0, i) + s.substring(i + 1), 
+					built + s.charAt(i));
+		}
+	}
     /**
      * @param args the command line arguments
      */

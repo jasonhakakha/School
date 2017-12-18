@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  * @author Jason
  */
 public class Word extends Application {
-    
+    int count = 0;
     @Override
     public void start(Stage primaryStage) {
 //        Button btn = new Button();
@@ -37,26 +37,12 @@ public class Word extends Application {
 //            }
 //        });
         String[] temparr = {"read","bee","card","an","be","to"};
-        ArrayList<String> words = new ArrayList<>(Arrays.asList(temparr));
-        ArrayList<String> four = new ArrayList<>();
-        ArrayList<String> three = new ArrayList<>();
-        ArrayList<String> two = new ArrayList<>();
-        Tile one = new Tile("bread");
-        System.out.println(one.word);
-        System.out.println(one.blank);
-        for(String x: words){
-            int len = x.length();
-            switch(len){
-                case 4: four.add(x);break;
-                case 3: three.add(x);break;
-                case 2: two.add(x);break;
-            }
-        }
-        int row = 0;
-        if(words.size() % 2 == 0)
-            row = words.size() % 2;
-        else
-            row = words.size() % 2 + 1;
+        ArrayList<String> wordstemp = new ArrayList<>(Arrays.asList(temparr));
+        ArrayList<String> words = orderWords(wordstemp);
+        
+        count = words.size();
+       
+        
         GridPane root = new GridPane();
         TextField castro = new TextField("WORD: CASTRO");
         GridPane.setConstraints(castro,0,0);
@@ -87,6 +73,9 @@ public class Word extends Application {
             for(int i = 0; i < wordTile.size(); i++){
                 if(wordTile.get(i).word.equals(answer.getText())){
                     tf.get(i).setText(wordTile.get(i).word);
+                    count--;
+                    if(count == 0)
+                        System.out.println("WIN");
                 }
             }
         }
@@ -118,7 +107,17 @@ public class Word extends Application {
        
          }
     }
-
+    public ArrayList<String> orderWords(ArrayList<String> x){
+        int max = 0;
+        ArrayList<String> temp = new ArrayList<>();
+        for(String s: x) 
+            if(s.length() > max) max = s.length();
+        for(int i = max; i > 1; i--){
+            for(String s: x)
+                if (s.length() == i)temp.add(s);
+        }
+        return temp;
+    }
     /**
      * @param args the command line arguments
      */

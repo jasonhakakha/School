@@ -62,10 +62,17 @@ public class Word extends Application {
         GridPane.setConstraints(castro,0,0);
         root.getChildren().add(castro);
         int rowcount = 2;
+        ArrayList<Tile> wordTile = new ArrayList<>();
+        for(String s: words){
+            Tile temp = new Tile(s);
+            wordTile.add(temp);
+        }
+        ArrayList<TextField> tf = new ArrayList<>();
         
-        for(int i = 0; i < words.size(); i++){
+        for(int i = 0; i < wordTile.size(); i++){
             boolean odd = i % 2 == 1;
-            TextField temp = new TextField(words.get(i));
+            TextField temp = new TextField(wordTile.get(i).blank);
+            tf.add(temp);
             if(odd)
                GridPane.setConstraints(temp,1, rowcount++);
             else
@@ -75,6 +82,16 @@ public class Word extends Application {
         }
         TextField answer = new TextField();
         Button enter = new Button("enter");
+        enter.setOnAction(e->{
+        if(words.contains(answer.getText())){
+            for(int i = 0; i < wordTile.size(); i++){
+                if(wordTile.get(i).word.equals(answer.getText())){
+                    tf.get(i).setText(wordTile.get(i).word);
+                }
+            }
+        }
+        answer.setText("");
+        });
         GridPane.setConstraints(answer, 0, words.size() + 1);
         GridPane.setConstraints(enter, 1, words.size() + 1);
         root.getChildren().addAll(enter, answer);
@@ -82,7 +99,7 @@ public class Word extends Application {
        // StackPane root = new StackPane();
         //root.getChildren().add(btn);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root);
         
         primaryStage.setTitle("Hello");
         primaryStage.setScene(scene);
@@ -91,11 +108,12 @@ public class Word extends Application {
     public class Tile{
         public String word;
         public String blank;
+        public int ord;
         public Tile(String word){
             this.word = word;
             String temp = "";
             for(int i = 0; i < word.length();i++)
-                temp += "_,";
+                temp += "_ ";
             blank = temp.substring(0, temp.length() - 1);
        
          }

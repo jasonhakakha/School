@@ -22,20 +22,26 @@ public class Tree<E> {
 		if(c.left == null && c.right == null) return 1;
 		return leaf(c.left) + leaf(c.right);
 	}
-	public int countleft() {return countleft(root);}
-	private int countleft(node<E> c) {
-		
-	}
+	
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Tree<Integer> t1 = new Tree();
-		t1.root = new node(1);
-		t1.root.left = new node(2);
-		t1.root.right = new node(3);
-		Tree<Character> t2 = new Tree();
-		System.out.println(t2.leaf());
+		Tree<String> t2 = new Tree<>();
+		t2.root = new node<>("aaa");
+		t2.root.right = new node<>("bbb");
+		t2.root.right.left = new node<>("ccc");;
+		System.out.println(t2.countLeftNodes());
 
+	}
+	public int countLeftNodes(){
+		return countLeftNodes(root);
+	}
+	private int countLeftNodes(node<E> c){
+		int count = 0;
+		if(c.right != null)
+			 count += countLeftNodes(c.right);
+		if(c.left != null)
+			count += 1 + countLeftNodes(c.left); 
+		return count;
 	}
 	static class node<E> {
 		E data;
